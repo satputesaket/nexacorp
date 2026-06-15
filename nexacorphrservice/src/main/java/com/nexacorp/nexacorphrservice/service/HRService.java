@@ -45,17 +45,19 @@ public class HRService {
 		Employee current = employeeRepository.findByUsername(username).orElseThrow(()->new RuntimeException("Employee not found."));
 	
 		List<Employee> teamMembers = employeeRepository.findByTeam(current.getTeam());
-		
-		for(Employee member : teamMembers) {
-			if(member.getUsername().equals(username)) {
-				continue;
-			}else {
-				if(isOnLeave(member.getUsername(),date)) {
-					return member.getUsername();
-				}
-			}
-			
-		}
+       
+		for (Employee member : teamMembers) {
+            if (member.getUsername().equals(username)) {
+                continue;
+            }
+            boolean onLeave = leaveRecordRepository
+                    .findByUsernameAndLeaveDate(member.getUsername(), date)
+                    .isPresent();
+            if (!onLeave) {
+                return member.getUsername();
+            }
+        }
+
 		throw new RuntimeException("No replacement available.");
 	}
 
