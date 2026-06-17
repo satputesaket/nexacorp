@@ -44,6 +44,28 @@ public class DeploymentService {
         return deploymentRepository.save(deployment);
     }
 
-  
+    public Deployment assignOwner(Long id, String newOwner) {
+        Deployment deployment = getDeployment(id);
+
+        deployment.setOwner(newOwner);
+        deployment.setUpdatedAt(LocalDateTime.now());
+
+        return deploymentRepository.save(deployment);
+    }
+
+    public Deployment rescheduleDeployment(Long id, LocalDateTime newTime) {
+        Deployment deployment = getDeployment(id);
+        deployment.setScheduledTime(newTime);
+        deployment.setUpdatedAt(LocalDateTime.now());
+        return deploymentRepository.save(deployment);
+    }
+
+    public Deployment cancelDeployment(Long id) {
+        Deployment deployment = getDeployment(id);
+        deployment.setStatus(DeploymentStatus.CANCELLED);
+        deployment.setUpdatedAt(LocalDateTime.now());
+        return deploymentRepository.save(deployment);
+    }
+
 
 }
