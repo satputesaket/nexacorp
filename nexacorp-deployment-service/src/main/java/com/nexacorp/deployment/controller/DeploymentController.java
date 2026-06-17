@@ -39,27 +39,6 @@ class DeploymentController {
     }
 
 
-    @PutMapping("/{id}/assign")
-    public Deployment assignDeployment(
-            @PathVariable Long id,
-            @RequestParam String assignee) {
-
-        return deploymentService.assignOwner(id, assignee);
-    }
-
-    @PutMapping("/{id}/reschedule")
-    public Deployment rescheduleDeployment(
-            @PathVariable Long id,
-            @RequestParam
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            LocalDateTime newTime) {
-
-        return deploymentService.rescheduleDeployment(id, newTime);
-    }
-
-    @PutMapping("/{id}/cancel")
-    public Deployment cancelDeployment(@PathVariable Long id) {
-        return deploymentService.cancelDeployment(id);
-    }
+   
 
 }
